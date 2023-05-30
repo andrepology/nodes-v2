@@ -22,6 +22,8 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { useRowSelection } from "@/utils/app/context"
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -35,9 +37,11 @@ export function DataTable<TData, TValue>({
 
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = useState({})
+  
 
   const [measureRef, bounds] = useMeasure()
+
+  const { rowSelection, setRowSelection, setSelectedComponent } = useRowSelection()
 
   const table = useReactTable({
     data,
@@ -54,6 +58,8 @@ export function DataTable<TData, TValue>({
       
     },
   })
+
+  
 
   return (
     <div 
@@ -86,6 +92,17 @@ export function DataTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className={row.getIsSelected() ? "bg-slate-50/20" : ""}
+                onClick={
+                  () => {
+                    table.toggleAllRowsSelected(false)
+                    row.toggleSelected()
+
+                    // TODO: server fetch
+                    setSelectedComponent(row.original)
+                    
+                  }
+                }
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
@@ -97,7 +114,7 @@ export function DataTable<TData, TValue>({
           ) : (
             <TableRow>
               <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
+                No results. Press the Send button interact with the Research Object.
               </TableCell>
             </TableRow>
           )}
