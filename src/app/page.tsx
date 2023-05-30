@@ -49,10 +49,10 @@ export default function Home() {
     
 
   return (
-    <div>
-      Component Browser
+    <div className='flex flex-col'>
+      <div>dpid.org / 420 / {selectedComponent?.componentName}</div>
 
-      {componentView}
+      <div className="w-full">{componentView}</div>
     </div>
   )
 }

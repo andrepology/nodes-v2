@@ -40,12 +40,20 @@ export function DataTable<TData, TValue>({
   
 
   const [measureRef, bounds] = useMeasure()
+  const { width } = bounds
+
+  const columnsToRender = width > 520 ? columns : width > 230 ? columns.slice(0, 2) : columns.slice(1,2)
+
+
+    
+  
+
 
   const { rowSelection, setRowSelection, setSelectedComponent } = useRowSelection()
 
   const table = useReactTable({
     data,
-    columns,
+    columns: columnsToRender,
     getCoreRowModel: getCoreRowModel(),
     onSortingChange: setSorting,
     getSortedRowModel: getSortedRowModel(),
@@ -54,11 +62,12 @@ export function DataTable<TData, TValue>({
     state: {
       sorting,
       columnVisibility,
-      rowSelection
-      
+      rowSelection,
     },
   })
 
+
+  
   
 
   return (
@@ -71,6 +80,9 @@ export function DataTable<TData, TValue>({
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
+                
+                
+
                 return (
                   <TableHead key={header.id}>
                     {header.isPlaceholder
@@ -96,10 +108,12 @@ export function DataTable<TData, TValue>({
                 onClick={
                   () => {
                     table.toggleAllRowsSelected(false)
+
                     row.toggleSelected()
 
                     // TODO: server fetch
-                    setSelectedComponent(row.original)
+
+                    row.getIsSelected() ? setSelectedComponent({}) : setSelectedComponent(row.original)
                     
                   }
                 }
