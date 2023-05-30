@@ -45,10 +45,6 @@ export function DataTable<TData, TValue>({
   const columnsToRender = width > 520 ? columns : width > 230 ? columns.slice(0, 2) : columns.slice(1,2)
 
 
-    
-  
-
-
   const { rowSelection, setRowSelection, setSelectedComponent } = useRowSelection()
 
   const table = useReactTable({
