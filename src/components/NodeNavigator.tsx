@@ -1,6 +1,6 @@
 'use client'
 
-
+import { SearchProvider } from "@/utils/app/context"
 
 import { columns, researchComponents, ResearchComponent } from "@/components/ui/columns"
 import { DataTable } from "@/components/ui/drive-table"
@@ -29,17 +29,19 @@ export default function NodeNavigator({ className,  } : { className: string}) {
   // expand up to 32px from left edge of screen
   
   return (
-    <div 
-      className={"mx-auto py-10 px-2 flex flex-col gap-4 " + className}
-      style={{width: "calc(100% - 64px)", maxWidth: "800px"}}
-    >
 
-      <DataTable 
-        columns={columns} 
-        data={data} 
-        
-      />
-      <ChatInput />
-    </div>
+    <SearchProvider>
+      <div 
+        className={"mx-auto flex flex-col gap-4 " + className}
+        style={{width: "calc(100% - 64px)", maxWidth: "800px"}}
+      >
+
+        <DataTable 
+          columns={columns} 
+          data={data} 
+          
+        />
+      </div>
+    </SearchProvider>
   )
 }

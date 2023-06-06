@@ -1,5 +1,5 @@
 
-import { createContext, useMemo, useContext, useState } from 'react';
+import { createContext, useMemo, useContext, useState, Dispatch } from 'react';
 
 const SelectionContext = createContext({});
 
@@ -34,5 +34,29 @@ export const useRowSelection = () => {
   };
 };
 
+const searchContext = createContext({});
+export const SearchProvider = (props) => {
+  const [search, setSearch] = useState('');
+  const [columnFilters, setColumnFilters] = useState([]);
+
+  return (
+    <searchContext.Provider value={{search, setSearch, columnFilters, setColumnFilters}} {...props} />
+  );
+};
+
+export const useSearch = () => {
+  const context = useContext(searchContext);
+
+  if (!context) {
+    throw new Error('useSearch must be used within a SearchProvider');
+  }
+
+  return context as {
+    search: string;
+    setSearch: Dispatch<string>;
+    columnFilters: Array<any>;
+    setColumnFilters: any;
+  };
+};
 
 // TODO: define Context for Annotation
