@@ -8,6 +8,9 @@ import NodeNavigator from '@/components/NodeNavigator'
 import { RowSelectionProvider, useRowSelection } from '@/utils/app/context';
 
 
+import Image from 'next/image';
+
+
 
 export default function Home() {
 
@@ -31,9 +34,6 @@ export default function Home() {
       )
     })
 
-    // an efficient way to check if an object is empty
-
-
 
     const componentView = Object.keys(selectedComponent).length ? (
       <>
@@ -50,7 +50,20 @@ export default function Home() {
 
   return (
     <div className='flex flex-col'>
-      <div>dpid.org / 420 / {selectedComponent?.componentName}</div>
+
+      <div className='flex justify-between'>
+        
+
+        <div className=' bg-white/10 border border-white/5 flex gap-2 text-white grow max-w-md rounded-md'>
+          <Image 
+            src = "./dpid-logo.svg"
+            width={18}
+            height={18}
+            alt = {"dpid"}
+          />
+          / 420 / {selectedComponent?.componentName}
+        </div>
+      </div>
 
       <div className="w-full">{componentView}</div>
     </div>
@@ -69,7 +82,10 @@ export default function Home() {
             />
           </Panel>
           <PanelResizeHandle >
-            <div className="w-1.5 h-16 rounded-full absolute bottom-28 bg-gray-500"></div>
+            <div 
+              style={{bottom: "88px"}}
+              className="w-1.5 h-12 rounded-full absolute hover:shadow-lg hover:shadow-white/80 transition-bg duration-300 bg-gray-500 hover:bg-gray-400"
+            />
           </PanelResizeHandle>
           <Panel minSize={25} className='rounded-md bg-slate-200/10 m-2 ml-6'>
             <ComponentBrowser />
